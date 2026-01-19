@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DocumentType extends Model
+class FieldType extends Model
 {
     protected $fillable = [
         'name',
@@ -13,6 +13,6 @@ class DocumentType extends Model
 
     public function submissions()
     {
-        return $this->belongsToMany(Submission::class, 'submission_document_type', 'document_type_id', 'submission_id')->withPivot('file');
+        return $this->belongsToMany(Submission::class, 'submission_field_type', 'field_type_id', 'submission_id')->withPivot('new_value', 'old_value');
     }
 }
