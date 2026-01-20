@@ -31,6 +31,7 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('/')
             ->login()
+            ->passwordReset()
             ->registration(Register::class)
             ->profile(EditProfile::class)
             ->colors([
