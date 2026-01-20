@@ -2,26 +2,27 @@
 
 namespace App\Filament\Resources\Submissions;
 
-use App\Filament\Resources\Submissions\Pages\CreateSubmission;
-use App\Filament\Resources\Submissions\Pages\EditSubmission;
-use App\Filament\Resources\Submissions\Pages\ListSubmissions;
-use App\Filament\Resources\Submissions\Pages\ViewSubmission;
-use App\Filament\Resources\Submissions\RelationManagers\FieldTypesRelationManager;
-use App\Filament\Resources\Submissions\Schemas\SubmissionForm;
-use App\Filament\Resources\Submissions\Schemas\SubmissionInfolist;
-use App\Filament\Resources\Submissions\Tables\SubmissionsTable;
-use App\Models\Submission;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Submission;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use App\Filament\Resources\Submissions\Pages\EditSubmission;
+use App\Filament\Resources\Submissions\Pages\ViewSubmission;
+use App\Filament\Resources\Submissions\Pages\ListSubmissions;
+use App\Filament\Resources\Submissions\Pages\CreateSubmission;
+use App\Filament\Resources\Submissions\Schemas\SubmissionForm;
+use App\Filament\Resources\Submissions\Tables\SubmissionsTable;
+use App\Filament\Resources\Submissions\Schemas\SubmissionInfolist;
+use App\Filament\Resources\Submissions\RelationManagers\FieldTypesRelationManager;
+use App\Filament\Resources\Submissions\RelationManagers\DocumentTypesRelationManager;
 
 class SubmissionResource extends Resource
 {
     protected static ?string $model = Submission::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocument;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -43,7 +44,8 @@ class SubmissionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            FieldTypesRelationManager::class
+            FieldTypesRelationManager::class,
+            DocumentTypesRelationManager::class,
         ];
     }
 

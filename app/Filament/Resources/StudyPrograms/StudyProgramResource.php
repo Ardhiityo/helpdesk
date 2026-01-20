@@ -21,7 +21,7 @@ class StudyProgramResource extends Resource
 {
     protected static ?string $model = StudyProgram::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::AcademicCap;
 
     protected static ?string $recordTitleAttribute = 'name';
 

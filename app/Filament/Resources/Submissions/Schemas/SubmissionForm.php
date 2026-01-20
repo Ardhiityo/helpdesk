@@ -93,7 +93,37 @@ class SubmissionForm
                                 ->addActionLabel('Add Document Type Data')
                                 ->reorderable(false)
                         ]),
-                ])->columnSpanFull()
+                ])
+                    ->columnSpanFull()
+                    ->visibleOn('create'),
+                Section::make('Submission Details')
+                    ->schema([
+                        TextInput::make('name')
+                            ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()->name : null)
+                            ->required(),
+                        TextInput::make('nim')
+                            ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()?->student?->nim : null)
+                            ->required(),
+                        TextInput::make('email')
+                            ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()->email : null)
+                            ->label('Email address')
+                            ->email()
+                            ->required(),
+                        Select::make('study_program')
+                            // Menggunakan null-safe operator agar tidak error jika relasi kosong
+                            ->default(fn() => auth()->user()->hasRole('student') ? auth()->user()->student?->studyProgram?->name : null)
+                            ->options(function () {
+                                // PENTING: pluck('value', 'key')
+                                // Kita jadikan 'name' sebagai key agar cocok dengan default value-nya
+                                return StudyProgram::all()->pluck('name', 'name');
+                            })
+                            ->searchable()
+                            ->preload()
+                            ->exists(table: 'study_programs', column: 'name')
+                            ->required(),
+                    ])
+                    ->columnSpanFull()
+                    ->visibleOn('edit'),
             ]);
     }
 }

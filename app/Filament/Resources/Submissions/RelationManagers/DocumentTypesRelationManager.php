@@ -2,41 +2,55 @@
 
 namespace App\Filament\Resources\Submissions\RelationManagers;
 
-use App\Models\FieldType;
 use Filament\Tables\Table;
+use App\Models\DocumentType;
+use Filament\Actions\Action;
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\AttachAction;
+use Filament\Actions\CreateAction;
 use Filament\Actions\DetachAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
 use Filament\Actions\DetachBulkAction;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Storage;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\FileUpload;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 
-class FieldTypesRelationManager extends RelationManager
+class DocumentTypesRelationManager extends RelationManager
 {
-    protected static string $relationship = 'fieldTypes';
+    protected static string $relationship = 'documentTypes';
 
-    protected static ?string $title = 'Data Details';
+    protected static ?string $title = 'Document Details';
 
     public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Select::make('field_type_id')
-                    ->label('Type')
-                    ->options(FieldType::all()->pluck('name', 'id'))
-                    ->required()
-                    ->searchable()
-                    ->preload()
-                    ->visibleOn('create'),
-                TextInput::make('new_value')
-                    ->required(),
-                TextInput::make('old_value')
-                    ->required(),
+                Section::make('Document Type')
+                    ->schema([
+                        Select::make('document_type_id')
+                            ->label('Type')
+                            ->options(DocumentType::all()->pluck('name', 'id'))
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->visibleOn('create'),
+                        FileUpload::make('file')
+                            ->required()
+                            ->directory('documents')
+                            ->disk('public')
+                            ->visibility('public')
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(1024)
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->hint('PDF files only. Maximum size: 1MB')
+                    ])->columnSpanFull()
             ]);
     }
 
@@ -44,8 +58,7 @@ class FieldTypesRelationManager extends RelationManager
     {
         return $schema
             ->components([
-                TextEntry::make('name')
-                    ->label('Type'),
+                TextEntry::make('name'),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
@@ -61,16 +74,10 @@ class FieldTypesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('name')
+            ->recordTitleAttribute('file')
             ->columns([
                 TextColumn::make('name')
                     ->label('Type')
-                    ->searchable(),
-                TextColumn::make('submissionFieldTypes.old_value')
-                    ->label('Old Value')
-                    ->searchable(),
-                TextColumn::make('submissionFieldTypes.new_value')
-                    ->label('New Value')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -85,21 +92,21 @@ class FieldTypesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                AttachAction::make()
-                    ->preloadRecordSelect()
-                    ->schema(fn(AttachAction $action): array => [
-                        $action->getRecordSelect(),
-                        TextInput::make('new_value')->required(),
-                        TextInput::make('old_value')->required(),
-                    ])
+                CreateAction::make(),
+                AttachAction::make(),
             ])
             ->recordActions([
+                Action::make('View')
+                    ->label('Preview')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn($record) => Storage::url($record->pivot->file))
+                    ->openUrlInNewTab(),
                 EditAction::make(),
                 DetachAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DetachBulkAction::make()
+                    DetachBulkAction::make(),
                 ]),
             ]);
     }
