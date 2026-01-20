@@ -61,6 +61,8 @@ class AppPanelProvider extends PanelProvider
                 Authenticate::class,
             ])->plugins([
                 FilamentShieldPlugin::make()
+                    ->navigationGroup('User Management')
+                    ->navigationLabel('Roles & Permissions')
             ])->sidebarCollapsibleOnDesktop();
     }
 }
