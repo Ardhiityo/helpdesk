@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             StudyProgramSeeder::class,
             DocumentTypeSeeder::class,
-            FieldTypeSeeder::class
+            FieldTypeSeeder::class,
+            FaqSeeder::class
         ]);
     }
 }

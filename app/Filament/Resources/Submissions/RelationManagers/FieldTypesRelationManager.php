@@ -20,7 +20,7 @@ class FieldTypesRelationManager extends RelationManager
 {
     protected static string $relationship = 'fieldTypes';
 
-    protected static ?string $title = 'Data Details';
+    protected static ?string $title = 'Field Details';
 
     public function form(Schema $schema): Schema
     {

@@ -58,7 +58,8 @@ class DocumentTypesRelationManager extends RelationManager
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label('Type'),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
