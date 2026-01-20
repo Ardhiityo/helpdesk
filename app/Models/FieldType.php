@@ -15,4 +15,9 @@ class FieldType extends Model
     {
         return $this->belongsToMany(Submission::class, 'submission_field_type', 'field_type_id', 'submission_id')->withPivot('new_value', 'old_value');
     }
+
+    public function submissionFieldTypes()
+    {
+        return $this->hasMany(SubmissionFieldType::class, 'field_type_id', 'id');
+    }
 }

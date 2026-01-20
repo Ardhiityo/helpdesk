@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Student;
+use App\Models\FieldType;
+use App\Models\DocumentType;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Submission extends Model
@@ -15,9 +19,30 @@ class Submission extends Model
         'student_id',
     ];
 
+    protected static function booted()
+    {
+        parent::booted();
+
+        self::creating(function (Submission $submission) {
+            if (Auth::user()->hasRole('student')) {
+                $submission->student_id = Auth::user()->student->id;
+            }
+        });
+    }
+
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id', 'id');
+    }
+
+    public function submissionFieldTypes()
+    {
+        return $this->hasMany(SubmissionFieldType::class);
+    }
+
+    public function submissionDocumentTypes()
+    {
+        return $this->hasMany(SubmissionDocumentType::class);
     }
 
     public function fieldTypes()

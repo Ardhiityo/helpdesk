@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nim');
             $table->unsignedBigInteger('study_program_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
             $table->foreign('study_program_id')->references('id')->on('study_programs')->onDelete('cascade');
