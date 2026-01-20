@@ -15,14 +15,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class FaqResource extends Resource
 {
     protected static ?string $model = Faq::class;
 
+    protected static string | UnitEnum | null $navigationGroup = 'Submission Management';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::QuestionMarkCircle;
 
     protected static ?string $recordTitleAttribute = 'question';
+
+    protected static bool $shouldSkipAuthorization = true;
 
     public static function form(Schema $schema): Schema
     {

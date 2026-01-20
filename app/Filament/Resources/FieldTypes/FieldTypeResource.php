@@ -13,12 +13,15 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class FieldTypeResource extends Resource
 {
     protected static ?string $model = FieldType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocumentList;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Type Management';
 
     protected static ?string $recordTitleAttribute = 'name';
 

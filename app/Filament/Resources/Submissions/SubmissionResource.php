@@ -17,14 +17,20 @@ use App\Filament\Resources\Submissions\Tables\SubmissionsTable;
 use App\Filament\Resources\Submissions\Schemas\SubmissionInfolist;
 use App\Filament\Resources\Submissions\RelationManagers\FieldTypesRelationManager;
 use App\Filament\Resources\Submissions\RelationManagers\DocumentTypesRelationManager;
+use UnitEnum;
+
 
 class SubmissionResource extends Resource
 {
     protected static ?string $model = Submission::class;
 
+    protected static string | UnitEnum | null $navigationGroup = 'Submission Management';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocument;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static bool $shouldSkipAuthorization = true;
 
     public static function form(Schema $schema): Schema
     {
