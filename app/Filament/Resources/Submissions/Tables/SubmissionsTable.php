@@ -2,12 +2,13 @@
 
 namespace App\Filament\Resources\Submissions\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 
 class SubmissionsTable
 {
@@ -41,6 +42,12 @@ class SubmissionsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('Print')
+                    ->icon('heroicon-o-printer')
+                    ->action(function ($record) {
+                        dd($record);
+                        // return response()->download(storage_path('app/public/' . $record->file));
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
