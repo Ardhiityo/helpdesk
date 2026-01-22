@@ -11,8 +11,10 @@ class SubmissionInfolist
     {
         return $schema
             ->components([
+                TextEntry::make('code'),
                 TextEntry::make('name'),
-                TextEntry::make('nim'),
+                TextEntry::make('nim')
+                    ->label('NIM'),
                 TextEntry::make('email')
                     ->label('Email address'),
                 TextEntry::make('study_program'),

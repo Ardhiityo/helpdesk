@@ -4,19 +4,24 @@ namespace App\Models;
 
 use App\Models\Student;
 use App\Models\FieldType;
+use App\Helpers\CodeBuilder;
 use App\Models\DocumentType;
+use App\Models\SubmissionFieldType;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SubmissionDocumentType;
 use Illuminate\Database\Eloquent\Model;
 
 class Submission extends Model
 {
     protected $fillable = [
         'name',
+        'code',
         'nim',
         'email',
         'study_program',
         'status',
-        'student_id',
+        'faculty',
+        'student_id'
     ];
 
     protected static function booted()
@@ -24,8 +29,13 @@ class Submission extends Model
         parent::booted();
 
         self::creating(function (Submission $submission) {
-            if (Auth::user()->hasRole('student')) {
-                $submission->student_id = Auth::user()->student->id;
+            $user = Auth::user();
+            $submission->code = 'UNVL-' . CodeBuilder::generate();
+
+            if ($user->hasRole('student')) {
+                $submission->faculty = $user->student->studyProgram->faculty->name;
+                $submission->study_program = $user->student->studyProgram->name;
+                $submission->student_id = $user->student->id;
             }
         });
     }

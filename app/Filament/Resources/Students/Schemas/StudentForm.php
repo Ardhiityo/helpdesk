@@ -13,6 +13,7 @@ class StudentForm
         return $schema
             ->components([
                 TextInput::make('nim')
+                    ->label('NIM')
                     ->required(),
                 Select::make('study_program_id')
                     ->relationship('studyProgram', 'name')

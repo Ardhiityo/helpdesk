@@ -16,5 +16,8 @@ class FieldTypeSeeder extends Seeder
         FieldType::create([
             'name' => 'Nama'
         ]);
+        FieldType::create([
+            'name' => 'Tanggal Lahir'
+        ]);
     }
 }

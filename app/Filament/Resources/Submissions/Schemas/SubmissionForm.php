@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Submissions\Schemas;
 
 use App\Models\FieldType;
 use App\Models\DocumentType;
-use App\Models\StudyProgram;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
@@ -30,25 +29,14 @@ class SubmissionForm
                                 ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()->name : null)
                                 ->required(),
                             TextInput::make('nim')
+                                ->label('NIM')
                                 ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()?->student?->nim : null)
                                 ->required(),
                             TextInput::make('email')
                                 ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()->email : null)
                                 ->label('Email address')
                                 ->email()
-                                ->required(),
-                            Select::make('study_program')
-                                // Menggunakan null-safe operator agar tidak error jika relasi kosong
-                                ->default(fn() => auth()->user()->hasRole('student') ? auth()->user()->student?->studyProgram?->name : null)
-                                ->options(function () {
-                                    // PENTING: pluck('value', 'key')
-                                    // Kita jadikan 'name' sebagai key agar cocok dengan default value-nya
-                                    return StudyProgram::all()->pluck('name', 'name');
-                                })
-                                ->searchable()
-                                ->preload()
-                                ->exists(table: 'study_programs', column: 'name')
-                                ->required(),
+                                ->required()
                         ]),
                     Step::make('Type of Field Details')
                         ->description('Select the data field you want to change')
@@ -117,18 +105,14 @@ class SubmissionForm
                             ->label('Email address')
                             ->email()
                             ->required(),
-                        Select::make('study_program')
-                            // Menggunakan null-safe operator agar tidak error jika relasi kosong
-                            ->default(fn() => auth()->user()->hasRole('student') ? auth()->user()->student?->studyProgram?->name : null)
-                            ->options(function () {
-                                // PENTING: pluck('value', 'key')
-                                // Kita jadikan 'name' sebagai key agar cocok dengan default value-nya
-                                return StudyProgram::all()->pluck('name', 'name');
-                            })
-                            ->searchable()
-                            ->preload()
-                            ->exists(table: 'study_programs', column: 'name')
-                            ->required(),
+                        Select::make('status')
+                            ->options([
+                                'process' => 'Process',
+                                'approved' => 'Approved',
+                                'rejected' => 'Rejected',
+                            ])
+                            ->label('Email address')
+                            ->required()
                     ])
                     ->columnSpanFull()
                     ->visibleOn('edit'),

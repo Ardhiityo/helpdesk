@@ -1,31 +1,29 @@
 <?php
 
-namespace App\Filament\Resources\StudyPrograms;
+namespace App\Filament\Resources\Faculties;
 
-use UnitEnum;
+use App\Filament\Resources\Faculties\Pages\ManageFaculties;
+use App\Models\Faculty;
 use BackedEnum;
-use Filament\Tables\Table;
-use App\Models\StudyProgram;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Actions\DeleteAction;
-use Filament\Support\Icons\Heroicon;
 use Filament\Actions\BulkActionGroup;
-use Filament\Forms\Components\Select;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
-use App\Filament\Resources\StudyPrograms\Pages\ManageStudyPrograms;
+use Filament\Forms\Components\Textarea;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use UnitEnum;
 
-class StudyProgramResource extends Resource
+class FacultyResource extends Resource
 {
-    protected static ?string $model = StudyProgram::class;
-
+    protected static ?string $model = Faculty::class;
     protected static string | UnitEnum | null $navigationGroup = 'Submission Management';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::AcademicCap;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::ListBullet;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -37,9 +35,6 @@ class StudyProgramResource extends Resource
                     ->required(),
                 Textarea::make('description')
                     ->columnSpanFull(),
-                Select::make('faculty_id')
-                    ->relationship('faculty', 'name')
-                    ->required(),
             ]);
     }
 
@@ -49,8 +44,6 @@ class StudyProgramResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('faculty.name')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -78,7 +71,7 @@ class StudyProgramResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageStudyPrograms::route('/'),
+            'index' => ManageFaculties::route('/'),
         ];
     }
 }

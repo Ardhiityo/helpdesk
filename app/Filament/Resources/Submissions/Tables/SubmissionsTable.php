@@ -16,9 +16,12 @@ class SubmissionsTable
     {
         return $table
             ->columns([
+                TextColumn::make('code')
+                    ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('nim')
+                    ->label('NIM')
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email address')
@@ -44,10 +47,8 @@ class SubmissionsTable
                 EditAction::make(),
                 Action::make('Print')
                     ->icon('heroicon-o-printer')
-                    ->action(function ($record) {
-                        dd($record);
-                        // return response()->download(storage_path('app/public/' . $record->file));
-                    }),
+                    ->url(fn($record) => route('submissions.print', $record))
+                    ->openUrlInNewTab()
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

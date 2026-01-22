@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->string('name');
+            $table->string('file');
             $table->string('nim');
             $table->string('email');
             $table->string('study_program');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->string('faculty');
+            $table->enum('status', ['process', 'approved', 'rejected'])->default('process');
             $table->unsignedBigInteger('student_id');
             $table->timestamps();
 

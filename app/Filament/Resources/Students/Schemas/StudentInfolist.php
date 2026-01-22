@@ -11,9 +11,14 @@ class StudentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('nim'),
-                TextEntry::make('studyProgram.name'),
-                TextEntry::make('user.name'),
+                TextEntry::make('nim')
+                    ->label('NIM'),
+                TextEntry::make('studyProgram.name')
+                    ->label('Study Program'),
+                TextEntry::make('studyProgram.faculty.name')
+                    ->label('Faculty'),
+                TextEntry::make('user.name')
+                    ->label('User'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Submissions - {{ $record->code }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -18,7 +18,7 @@
                     <section class="font-bold text-center">
                         <h1>Kementerian Pendidikan Tinggi, Sains dan Teknologi</h1>
                         <h1>Universitas Al-Khairiyah</h1>
-                        <h1>Biro Akademik & Kemahasiswaan</h2>
+                        <h1>{{ $record->faculty }}</h2>
                     </section>
                     <section class="text-[16px]">
                         <p>Alamat : Jl.K.H.Enggus Arja No.1 Citangkil Kota Cilegon, Banten 42441</p>
@@ -37,7 +37,7 @@
     <main>
         <br>
         <br>
-        <p class="text-right">Cilegon, 21 Januari 2026</p>
+        <p class="text-right">Cilegon, {{ $record->created_at->format('d F Y') }}</p>
         <br>
         <p>Yang Terhormat,</p>
         <p>Rektor Universitas Al-Khairiyah</p>
@@ -51,20 +51,18 @@
         </p>
         <br>
         <table>
-            <thead>
-                <tr>
-                    <td class="px-4">Nama</td>
-                    <td class="px-4">: Arya Adhi Prasetyo</td>
-                </tr>
-                <tr>
-                    <td class="px-4">NPM</td>
-                    <td class="px-4">: 22040004</td>
-                </tr>
-                <tr>
-                    <td class="px-4">Program Studi</td>
-                    <td class="px-4">: Teknik Informatika</td>
-                </tr>
-            </thead>
+            <tr>
+                <td class="px-4">Nama</td>
+                <td class="px-4">: {{ $record->name }}</td>
+            </tr>
+            <tr>
+                <td class="px-4">NPM</td>
+                <td class="px-4">: {{ $record->nim }}</td>
+            </tr>
+            <tr>
+                <td class="px-4">Program Studi</td>
+                <td class="px-4">: {{ $record->study_program }}</td>
+            </tr>
         </table>
         <br>
         <p>Mengajukan permohonan perbaikan data nama di laman
@@ -72,32 +70,35 @@
             berikut:
         </p>
         <br>
-        <table>
+        <table class="text-center">
             <thead>
                 <tr>
-                    <td class="px-4">Tipe</td>
-                    <td class="px-4">: Nama</td>
-                </tr>
-                <tr>
-                    <td class="px-4">Kesalahan</td>
-                    <td class="px-4">: Ariya</td>
-                </tr>
-                <tr>
-                    <td class="px-4">Perbaikan</td>
-                    <td class="px-4">: Arya</th>
+                    <td class="px-2 border border-black">No</td>
+                    <td class="px-4 border border-black">Tipe</td>
+                    <td class="px-4 border border-black">Kesalahan</td>
+                    <td class="px-4 border border-black">Perbaikan</td>
                 </tr>
             </thead>
+            @foreach ($record->fieldTypes as $fieldType)
+                <tbody>
+                    <tr>
+                        <td class="px-2 border border-black">{{ $loop->iteration }}.</td>
+                        <td class="px-2 border border-black">{{ $fieldType->name }}</td>
+                        <td class="px-4 border border-black">{{ $fieldType->pivot->old_value }}</td>
+                        <td class="px-4 border border-black">{{ $fieldType->pivot->new_value }}</td>
+                    </tr>
+                </tbody>
+            @endforeach
         </table>
         <br>
         <p>Demikian permohonan ini disampaikan, atas perhatiannya diucapkan terimakasih.</p>
         <p><i>Wasalamualaikum Warahmatullahi Wabarakatuh</i></p>
         <br>
-        <br>
         <p>Pemohon,</p>
         <br>
         <br>
         <br>
-        <p>Arya Adhi Prasetyo</p>
+        <p>{{ $record->name }}</p>
     </main>
 </body>
 

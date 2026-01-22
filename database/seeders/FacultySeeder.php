@@ -2,20 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\StudyProgram;
+use App\Models\Faculty;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class StudyProgramSeeder extends Seeder
+class FacultySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        StudyProgram::create([
-            'name' => 'S1 Teknik Informatika',
-            'faculty_id' => 1,
+        Faculty::create([
+            'name' => 'Fakultas Ilmu Komputer',
         ]);
     }
 }
