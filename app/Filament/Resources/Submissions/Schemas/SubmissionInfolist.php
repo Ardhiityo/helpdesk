@@ -15,9 +15,8 @@ class SubmissionInfolist
                 TextEntry::make('name'),
                 TextEntry::make('nim')
                     ->label('NIM'),
-                TextEntry::make('email')
-                    ->label('Email address'),
                 TextEntry::make('study_program'),
+                TextEntry::make('faculty'),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('created_at')

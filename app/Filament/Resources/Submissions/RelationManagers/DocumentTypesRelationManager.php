@@ -8,7 +8,6 @@ use Filament\Actions\Action;
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\AttachAction;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DetachAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
@@ -75,7 +74,7 @@ class DocumentTypesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('file')
+            ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
                     ->label('Type')
@@ -93,8 +92,22 @@ class DocumentTypesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
-                AttachAction::make(),
+                AttachAction::make()
+                    ->preloadRecordSelect()
+                    ->schema(fn(AttachAction $action): array => [
+                        $action->getRecordSelect(),
+                        FileUpload::make('file')
+                            ->required()
+                            ->directory('documents')
+                            ->disk('public')
+                            ->visibility('public')
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->maxSize(1024)
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->hint('PDF files only. Maximum size: 1MB')
+                    ])
             ])
             ->recordActions([
                 Action::make('View')

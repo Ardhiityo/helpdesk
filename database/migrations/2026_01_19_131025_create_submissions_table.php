@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('name');
-            $table->string('file');
             $table->string('nim');
-            $table->string('email');
             $table->string('study_program');
             $table->string('faculty');
             $table->enum('status', ['process', 'approved', 'rejected'])->default('process');
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('student_id')->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');

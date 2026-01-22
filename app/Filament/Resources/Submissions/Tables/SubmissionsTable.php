@@ -23,8 +23,8 @@ class SubmissionsTable
                 TextColumn::make('nim')
                     ->label('NIM')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
+                TextColumn::make('faculty')
+                    ->label('Faculty')
                     ->searchable(),
                 TextColumn::make('study_program')
                     ->searchable(),

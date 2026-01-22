@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Submissions\Schemas;
 
 use App\Models\FieldType;
 use App\Models\DocumentType;
+use App\Models\StudyProgram;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
@@ -32,11 +33,39 @@ class SubmissionForm
                                 ->label('NIM')
                                 ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()?->student?->nim : null)
                                 ->required(),
-                            TextInput::make('email')
-                                ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()->email : null)
-                                ->label('Email address')
-                                ->email()
+                            Select::make('study_program')
+                                ->label('Study Program')
+                                ->options(StudyProgram::all()->pluck('name', 'name'))
                                 ->required()
+                                ->searchable()
+                                ->preload()
+                                ->default(function ($state, $set) {
+                                    $user = auth()->user();
+                                    if ($user->hasRole('student')) {
+                                        return $user->student->studyProgram->name;
+                                    }
+                                    return null;
+                                })
+                                ->exists('study_programs', 'name')
+                                ->reactive()
+                                ->afterStateUpdated(function ($state, $set) {
+                                    $study_program = StudyProgram::with('faculty')->where('name', $state)->first();
+                                    $set('faculty', $study_program->faculty->name);
+                                }),
+                            TextInput::make('faculty')
+                                ->label('Faculty')
+                                ->required()
+                                ->readOnly()
+                                ->default(function ($get) {
+                                    $user = auth()->user();
+                                    if ($user->hasRole('student')) {
+                                        $study_program = StudyProgram::with('faculty')->where('name', $get('study_program'))->first();
+                                        return $study_program->faculty->name;
+                                    }
+                                    return null;
+                                })
+                                ->placeholder('Select Study Program First')
+                                ->exists('faculties', 'name')
                         ]),
                     Step::make('Type of Field Details')
                         ->description('Select the data field you want to change')
@@ -100,18 +129,12 @@ class SubmissionForm
                         TextInput::make('nim')
                             ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()?->student?->nim : null)
                             ->required(),
-                        TextInput::make('email')
-                            ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()->email : null)
-                            ->label('Email address')
-                            ->email()
-                            ->required(),
                         Select::make('status')
                             ->options([
                                 'process' => 'Process',
                                 'approved' => 'Approved',
                                 'rejected' => 'Rejected',
                             ])
-                            ->label('Email address')
                             ->required()
                     ])
                     ->columnSpanFull()

@@ -33,8 +33,6 @@ class Submission extends Model
             $submission->code = 'UNVL-' . CodeBuilder::generate();
 
             if ($user->hasRole('student')) {
-                $submission->faculty = $user->student->studyProgram->faculty->name;
-                $submission->study_program = $user->student->studyProgram->name;
                 $submission->student_id = $user->student->id;
             }
         });
