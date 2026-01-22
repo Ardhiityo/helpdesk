@@ -38,7 +38,11 @@ class SubmissionResource extends Resource
     {
         $user = Auth::user();
 
-        return parent::getEloquentQuery()->when($user->hasRole('student'), fn(Builder $query) => $query->whereHas('student.user', fn(Builder $query) => $query->where('id', $user->id)));
+        return parent::getEloquentQuery()
+            ->when(
+                $user->hasRole('student'),
+                fn(Builder $query) => $query->whereHas('student.user', fn(Builder $query) => $query->where('id', $user->id))
+            );
     }
 
     public static function form(Schema $schema): Schema
