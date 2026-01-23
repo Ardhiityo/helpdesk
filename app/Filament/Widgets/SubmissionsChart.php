@@ -13,6 +13,12 @@ class SubmissionsChart extends ChartWidget
 
     protected int | string | array $columnSpan = 'full';
 
+    protected ?string $maxHeight = '500px';
+
+    protected bool $isCollapsible = true;
+
+    protected ?string $pollingInterval = '86400s';
+
     protected function getData(): array
     {
         $data = Trend::model(Submission::class)

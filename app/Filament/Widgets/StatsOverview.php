@@ -14,6 +14,8 @@ class StatsOverview extends StatsOverviewWidget
 
     protected ?string $description = 'An overview of some analytics.';
 
+    protected ?string $pollingInterval = '3600s';
+
     protected function getStats(): array
     {
         $user = Auth::user()->load('student');
