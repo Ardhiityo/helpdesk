@@ -47,6 +47,6 @@ class SubmissionsChart extends ChartWidget
 
     public function getDescription(): ?string
     {
-        return 'The number of submissions per month.';
+        return 'Total submissions per month for all students updated every 24 hours.';
     }
 }

@@ -12,9 +12,18 @@ class StatsOverview extends StatsOverviewWidget
 {
     protected ?string $heading = 'Stats Overview';
 
-    protected ?string $description = 'An overview of some analytics.';
-
     protected ?string $pollingInterval = '3600s';
+
+    protected function getDescription(): ?string
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('super_admin')) {
+            return 'Summary of several analyses updated every hour.';
+        }
+
+        return 'A summary of some of your analyses updated every hour.';
+    }
 
     protected function getStats(): array
     {
