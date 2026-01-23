@@ -17,8 +17,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StudyPrograms\Pages\ManageStudyPrograms;
+use Illuminate\Database\Eloquent\Builder;
 
 class StudyProgramResource extends Resource
 {
@@ -74,11 +74,6 @@ class StudyProgramResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->with(['faculty']);
     }
 
     public static function getPages(): array

@@ -50,11 +50,6 @@ class UserResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->with('roles');
-    }
-
     public static function getPages(): array
     {
         return [

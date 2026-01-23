@@ -50,11 +50,6 @@ class StudentResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->with(['user', 'studyProgram.faculty']);
-    }
-
     public static function getPages(): array
     {
         return [
