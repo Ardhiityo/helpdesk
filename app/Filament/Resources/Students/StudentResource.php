@@ -2,20 +2,21 @@
 
 namespace App\Filament\Resources\Students;
 
-use App\Filament\Resources\Students\Pages\CreateStudent;
-use App\Filament\Resources\Students\Pages\EditStudent;
-use App\Filament\Resources\Students\Pages\ListStudents;
-use App\Filament\Resources\Students\Pages\ViewStudent;
-use App\Filament\Resources\Students\Schemas\StudentForm;
-use App\Filament\Resources\Students\Schemas\StudentInfolist;
-use App\Filament\Resources\Students\Tables\StudentsTable;
-use App\Models\Student;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 use UnitEnum;
+use BackedEnum;
+use App\Models\Student;
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\Students\Pages\EditStudent;
+use App\Filament\Resources\Students\Pages\ViewStudent;
+use App\Filament\Resources\Students\Pages\ListStudents;
+use App\Filament\Resources\Students\Pages\CreateStudent;
+use App\Filament\Resources\Students\Schemas\StudentForm;
+use App\Filament\Resources\Students\Tables\StudentsTable;
+use App\Filament\Resources\Students\Schemas\StudentInfolist;
 
 class StudentResource extends Resource
 {
@@ -47,6 +48,11 @@ class StudentResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['user', 'studyProgram.faculty']);
     }
 
     public static function getPages(): array
