@@ -115,12 +115,36 @@ class DocumentTypesRelationManager extends RelationManager
                     ->icon('heroicon-o-eye')
                     ->url(fn($record) => Storage::url($record->pivot->file))
                     ->openUrlInNewTab(),
-                EditAction::make(),
-                DetachAction::make(),
+                EditAction::make()
+                    ->before(function ($record) {
+                        // Delete file before updating
+                        $filePath = $record->pivot->file ?? null;
+                        if ($filePath && Storage::disk('public')->exists($filePath)) {
+                            Storage::disk('public')->delete($filePath);
+                        }
+                    }),
+                DetachAction::make()
+                    ->before(function ($record) {
+                        // Delete file before detaching
+                        $filePath = $record->pivot->file ?? null;
+                        if ($filePath && Storage::disk('public')->exists($filePath)) {
+                            Storage::disk('public')->delete($filePath);
+                        }
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DetachBulkAction::make(),
+                    DetachBulkAction::make()
+                        ->before(function ($records) {
+                            // Delete files before bulk detach
+                            foreach ($records as $record) {
+                                $filePath = $record->pivot->file ?? null;
+                                if ($filePath && Storage::disk('public')->exists($filePath)) {
+                                    Storage::disk('public')->delete($filePath);
+                                    logger('File deleted from bulk detach: ' . $filePath);
+                                }
+                            }
+                        }),
                 ]),
             ]);
     }

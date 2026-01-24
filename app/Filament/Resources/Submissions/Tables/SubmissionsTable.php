@@ -9,6 +9,7 @@ use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Storage;
 
 class SubmissionsTable
 {
@@ -52,7 +53,18 @@ class SubmissionsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->before(function ($records) {
+                            // Delete all files before bulk delete
+                            foreach ($records as $record) {
+                                $documentTypes = $record->submissionDocumentTypes;
+                                foreach ($documentTypes as $pivotRecord) {
+                                    if ($pivotRecord->file && Storage::disk('public')->exists($pivotRecord->file)) {
+                                        Storage::disk('public')->delete($pivotRecord->file);
+                                    }
+                                }
+                            }
+                        }),
                 ]),
             ]);
     }

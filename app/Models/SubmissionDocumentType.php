@@ -6,12 +6,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class SubmissionDocumentType extends Pivot
 {
-    protected $fillable = [
-        'submission_id',
-        'document_type_id',
-        'file'
-    ];
-
     public function submission()
     {
         return $this->belongsTo(Submission::class, 'submission_id', 'id');
