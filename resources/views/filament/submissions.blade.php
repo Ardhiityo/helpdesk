@@ -18,7 +18,7 @@
                     <section class="font-bold text-center">
                         <h1>Kementerian Pendidikan Tinggi, Sains dan Teknologi</h1>
                         <h1>Universitas Al-Khairiyah</h1>
-                        <h1>{{ $record->faculty }}</h2>
+                        <h1>{{ $record->faculty }}</h1>
                     </section>
                     <section class="text-[16px]">
                         <p>Alamat : Jl.K.H.Enggus Arja No.1 Citangkil Kota Cilegon, Banten 42441</p>
