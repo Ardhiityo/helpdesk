@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Student::class, 'user_id', 'id');
     }
+
+    public function operator()
+    {
+        return $this->hasOne(Operator::class, 'user_id', 'id');
+    }
 }

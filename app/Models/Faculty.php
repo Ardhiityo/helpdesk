@@ -15,4 +15,9 @@ class Faculty extends Model
     {
         return $this->hasMany(StudyProgram::class, 'faculty_id', 'id');
     }
+
+    public function operators()
+    {
+        return $this->hasMany(Operator::class, 'faculty_id', 'id');
+    }
 }

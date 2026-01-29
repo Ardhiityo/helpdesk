@@ -13,8 +13,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
+            'name' => 'Superadmin',
+            'email' => 'superadmin@gmail.com',
             'email_verified_at' => now(),
             'password' => 11111111,
         ]);

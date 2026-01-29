@@ -41,7 +41,17 @@ class SubmissionResource extends Resource
         return parent::getEloquentQuery()
             ->when(
                 $user->hasRole('student'),
-                fn(Builder $query) => $query->whereHas('student.user', fn(Builder $query) => $query->where('id', $user->id))
+                fn(Builder $query) => $query->whereHas(
+                    'student.user',
+                    fn(Builder $query) => $query->where('id', $user->id)
+                )
+            )
+            ->when(
+                $user->hasRole('operator'),
+                fn(Builder $query) => $query->whereIn(
+                    'study_program',
+                    $user?->operator?->faculty?->studyPrograms->pluck('name')
+                )
             );
     }
 

@@ -19,6 +19,7 @@ class StudentForm
                     ->relationship('studyProgram', 'name')
                     ->required(),
                 Select::make('user_id')
+                    ->unique('students', 'user_id')
                     ->relationship(
                         name: 'user',
                         titleAttribute: 'name',
