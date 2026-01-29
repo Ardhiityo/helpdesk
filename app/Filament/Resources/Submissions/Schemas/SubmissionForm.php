@@ -42,7 +42,7 @@ class SubmissionForm
                                 ->default(function ($state, $set) {
                                     $user = auth()->user();
                                     if ($user->hasRole('student')) {
-                                        return $user->student->studyProgram->name;
+                                        return $user?->student?->studyProgram?->name;
                                     }
                                     return null;
                                 })
