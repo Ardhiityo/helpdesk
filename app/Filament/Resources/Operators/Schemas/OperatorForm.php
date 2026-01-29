@@ -32,7 +32,6 @@ class OperatorForm
                             ->preload()
                             ->searchable()
                             ->required()
-                            ->unique(),
                     ])->columnSpanFull()
             ]);
     }
