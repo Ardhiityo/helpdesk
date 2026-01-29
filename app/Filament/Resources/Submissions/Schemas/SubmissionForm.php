@@ -108,7 +108,6 @@ class SubmissionForm
                                         ->directory('documents')
                                         ->disk('public')
                                         ->visibility('public')
-                                        ->preserveFilenames()
                                         ->downloadable()
                                         ->openable()
                                         ->maxSize(1024)

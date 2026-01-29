@@ -27,8 +27,6 @@ class FaqResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'question';
 
-    protected static bool $shouldSkipAuthorization = true;
-
     public static function form(Schema $schema): Schema
     {
         return FaqForm::configure($schema);
