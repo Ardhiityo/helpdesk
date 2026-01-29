@@ -6,6 +6,7 @@ use Filament\Tables\Table;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
@@ -20,14 +21,18 @@ class SubmissionsTable
                 TextColumn::make('code')
                     ->searchable(),
                 TextColumn::make('name')
+                    ->visible(Auth::user()->hasRole('student') ? false : true)
                     ->searchable(),
                 TextColumn::make('nim')
+                    ->visible(Auth::user()->hasRole('student') ? false : true)
                     ->label('NIM')
                     ->searchable(),
                 TextColumn::make('faculty')
+                    ->visible(Auth::user()->hasRole('student') ? false : true)
                     ->label('Faculty')
                     ->searchable(),
                 TextColumn::make('study_program')
+                    ->visible(Auth::user()->hasRole('student') ? false : true)
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge(),
@@ -45,7 +50,9 @@ class SubmissionsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()->visible(function ($record) {
+                    return Auth::user()->hasRole('student') ? $record->status != 'approved' : true;
+                }),
                 Action::make('Print')
                     ->icon('heroicon-o-printer')
                     ->url(fn($record) => route('submissions.print', $record))

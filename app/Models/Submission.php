@@ -33,7 +33,19 @@ class Submission extends Model
             $submission->code = 'UNVL-' . CodeBuilder::generate();
 
             if ($user->hasRole('student')) {
-                $submission->student_id = $user->student->id;
+                if (is_null($user?->student)) {
+                    $student = Student::create([
+                        'user_id' => $user->id,
+                        'nim' => $submission->nim,
+                        'study_program_id' => StudyProgram::where(
+                            'name',
+                            $submission->study_program
+                        )->first()->id,
+                    ]);
+                    $submission->student_id = $student->id;
+                } else {
+                    $submission->student_id = $user->student->id;
+                }
             }
         });
     }

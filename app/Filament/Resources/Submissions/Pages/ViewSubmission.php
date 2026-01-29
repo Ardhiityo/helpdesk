@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\Submissions\Pages;
 
-use App\Filament\Resources\Submissions\SubmissionResource;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Resources\Submissions\SubmissionResource;
 
 class ViewSubmission extends ViewRecord
 {
@@ -14,6 +15,11 @@ class ViewSubmission extends ViewRecord
     {
         return [
             EditAction::make(),
+            Action::make('Print')
+                ->icon('heroicon-o-printer')
+                ->color('success')
+                ->url(fn($record) => route('submissions.print', $record))
+                ->openUrlInNewTab()
         ];
     }
 }

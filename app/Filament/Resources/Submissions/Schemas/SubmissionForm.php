@@ -7,6 +7,7 @@ use App\Models\DocumentType;
 use App\Models\StudyProgram;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Wizard;
@@ -128,6 +129,39 @@ class SubmissionForm
                         TextInput::make('nim')
                             ->default(fn($state) => auth()->user()->hasRole('student') ? auth()->user()?->student?->nim : null)
                             ->required(),
+                        Select::make('study_program')
+                            ->label('Study Program')
+                            ->options(StudyProgram::all()->pluck('name', 'name'))
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->default(function ($state, $set) {
+                                $user = auth()->user();
+                                if ($user->hasRole('student')) {
+                                    return $user?->student?->studyProgram?->name;
+                                }
+                                return null;
+                            })
+                            ->exists('study_programs', 'name')
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, $set) {
+                                $study_program = StudyProgram::with('faculty')->where('name', $state)->first();
+                                $set('faculty', $study_program->faculty->name);
+                            }),
+                        TextInput::make('faculty')
+                            ->label('Faculty')
+                            ->required()
+                            ->readOnly()
+                            ->default(function ($get) {
+                                $user = auth()->user();
+                                if ($user->hasRole('student')) {
+                                    $study_program = StudyProgram::with('faculty')->where('name', $get('study_program'))->first();
+                                    return $study_program?->faculty?->name;
+                                }
+                                return null;
+                            })
+                            ->placeholder('Select Study Program First')
+                            ->exists('faculties', 'name'),
                         Select::make('status')
                             ->options([
                                 'process' => 'Process',
@@ -135,6 +169,7 @@ class SubmissionForm
                                 'rejected' => 'Rejected',
                             ])
                             ->required()
+                            ->visible(Auth::user()->hasRole('super_admin'))
                     ])
                     ->columnSpanFull()
                     ->visibleOn('edit'),
