@@ -60,7 +60,7 @@ class SubmissionForm
                                     $user = auth()->user();
                                     if ($user->hasRole('student')) {
                                         $study_program = StudyProgram::with('faculty')->where('name', $get('study_program'))->first();
-                                        return $study_program->faculty->name;
+                                        return $study_program?->faculty?->name;
                                     }
                                     return null;
                                 })
