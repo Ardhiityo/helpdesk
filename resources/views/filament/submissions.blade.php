@@ -9,18 +9,19 @@
 </head>
 
 <body>
-
     <table>
         <thead>
             <tr>
-                <td class="px-4"><img src="{{ asset('assets/unival.jpg') }}" alt="unival" width="100px"></td>
+                <td style="padding-right: 20px; display: flex; align-items: center;">
+                    <img src="{{ asset('assets/unival.jpg') }}" alt="unival" width="100px">
+                </td>
                 <td class="text-center">
-                    <section class="font-bold text-center">
+                    <section class="text-center" style="font-weight: bold; font-size: 14pt;">
                         <h1>Kementerian Pendidikan Tinggi, Sains dan Teknologi</h1>
                         <h1>Universitas Al-Khairiyah</h1>
                         <h1>{{ $record->faculty }}</h1>
                     </section>
-                    <section class="text-[16px]">
+                    <section style="font-weight: normal; font-size: 12pt;">
                         <p>Alamat : Jl.K.H.Enggus Arja No.1 Citangkil Kota Cilegon, Banten 42441</p>
                         <p>No. telepon: (0254) 7877057 Website: unival-cilegon.ac.id</p>
                     </section>
@@ -32,69 +33,68 @@
     <div style="border-bottom: 2px double black;"></div>
 
     <br>
-    <br>
-    <h3 class="font-bold text-center">TENTANG <br> SURAT PERMOHONAN PERBAIKAN DATA SIAKAD </h3>
-    <main>
+
+    <main style="font-size: 12pt">
+        <h3 class="text-center" style="font-weight: bold">SURAT PERMOHONAN PERBAIKAN DATA SIAKAD </h3>
         <br>
-        <br>
-        <p class="text-right">Cilegon, {{ $record->created_at->format('d F Y') }}</p>
-        <br>
-        <p>Yang Terhormat,</p>
-        <p>Rektor Universitas Al-Khairiyah</p>
-        <p>Cq. Bagian Administrasi Akademik</p>
-        <p>Universitas Al-Khairiyah</p>
-        <p>Di Cilegon</p>
-        <br>
+
+        <p class="text-right">Cilegon, {{ $record->created_at->locale('id')->translatedFormat('d F Y') }}</p>
+        <p>Yang Terhormat, <br>
+            Rektor Universitas Al-Khairiyah <br>
+            Cq. Bagian Administrasi Akademik <br>
+            Universitas Al-Khairiyah <br>
+            Di Cilegon
+        </p>
         <p>
             <i>Assalamualaikum Warahmatullahi Wabarakatuh</i> <br>
             Saya yang bertanda tangan dibawah ini:
         </p>
-        <br>
         <table>
             <tr>
-                <td class="px-4">Nama</td>
-                <td class="px-4">: {{ $record->name }}</td>
+                <td>Nama</td>
+                <td>: {{ $record->name }}</td>
             </tr>
             <tr>
-                <td class="px-4">NPM</td>
-                <td class="px-4">: {{ $record->nim }}</td>
+                <td>NPM</td>
+                <td>: {{ $record->nim }}</td>
             </tr>
             <tr>
-                <td class="px-4">Program Studi</td>
-                <td class="px-4">: {{ $record->study_program }}</td>
+                <td>Program Studi</td>
+                <td>: {{ $record->study_program }}</td>
             </tr>
         </table>
-        <br>
+
         <p>Mengajukan permohonan perbaikan data nama di laman
             <a href="https://unival.siakadcloud.com/gate/login">Helpdesk Universitas Al-Khairiyah</a> sebagai
             berikut:
         </p>
-        <br>
+
         <table class="text-center">
             <thead>
                 <tr>
-                    <td class="px-2 border border-black">No</td>
-                    <td class="px-4 border border-black">Tipe</td>
-                    <td class="px-4 border border-black">Kesalahan</td>
-                    <td class="px-4 border border-black">Perbaikan</td>
+                    <th style="border: 1px solid black; padding: 0 10px 0 10px;">No</th>
+                    <th style="border: 1px solid black; padding: 0 10px 0 10px;">Tipe</th>
+                    <th style="border: 1px solid black; padding: 0 10px 0 10px;">Kesalahan</th>
+                    <th style="border: 1px solid black; padding: 0 10px 0 10px;">Perbaikan</th>
                 </tr>
             </thead>
             @foreach ($record->fieldTypes as $fieldType)
                 <tbody>
                     <tr>
-                        <td class="px-2 border border-black">{{ $loop->iteration }}.</td>
-                        <td class="px-2 border border-black">{{ $fieldType->name }}</td>
-                        <td class="px-4 border border-black">{{ $fieldType->pivot->old_value }}</td>
-                        <td class="px-4 border border-black">{{ $fieldType->pivot->new_value }}</td>
+                        <td style="border: 1px solid black">{{ $loop->iteration }}.</td>
+                        <td style="border: 1px solid black">{{ $fieldType->name }}</td>
+                        <td style="border: 1px solid black">{{ $fieldType->pivot->old_value }}</td>
+                        <td style="border: 1px solid black">{{ $fieldType->pivot->new_value }}</td>
                     </tr>
                 </tbody>
             @endforeach
         </table>
+
+        <p>Demikian permohonan ini disampaikan, atas perhatiannya diucapkan terimakasih. <br>
+            <i>Wasalamualaikum Warahmatullahi Wabarakatuh</i>
+        </p>
         <br>
-        <p>Demikian permohonan ini disampaikan, atas perhatiannya diucapkan terimakasih.</p>
-        <p><i>Wasalamualaikum Warahmatullahi Wabarakatuh</i></p>
-        <br>
-        <p>Pemohon,</p>
+        <p>Pemohon</p>
         <br>
         <br>
         <br>
