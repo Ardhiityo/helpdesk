@@ -64,7 +64,7 @@
             </tr>
         </table>
 
-        <p>Mengajukan permohonan perbaikan data nama di laman
+        <p>Mengajukan permohonan perbaikan data di laman
             <a href="https://unival.siakadcloud.com/gate/login">https://helpdesk.unival-cilegon.ac.id/</a> sebagai
             berikut:
         </p>
