@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Mpdf\Mpdf;
 use App\Models\Submission;
-use Spatie\LaravelPdf\Enums\Format;
-use function Spatie\LaravelPdf\Support\pdf;
+//use Spatie\LaravelPdf\Enums\Format;
+//use function Spatie\LaravelPdf\Support\pdf;
 
 class SubmissionController extends Controller
 {
