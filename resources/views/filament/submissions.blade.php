@@ -5,26 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submissions - {{ $record->code }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
     <table>
         <thead>
             <tr>
-                <td style="padding-right: 20px; display: flex; align-items: center;">
+                <td style="padding-right: 10px; display: flex; align-items: center;">
                     <img src="{{ asset('assets/unival.jpg') }}" alt="unival" width="100px">
                 </td>
-                <td class="text-center">
-                    <section class="text-center" style="font-weight: bold; font-size: 14pt;">
-                        <h1>Kementerian Pendidikan Tinggi, Sains dan Teknologi</h1>
-                        <h1>Universitas Al-Khairiyah</h1>
-                        <h1>{{ $record->faculty }}</h1>
-                    </section>
-                    <section style="font-weight: normal; font-size: 12pt;">
-                        <p>Alamat : Jl.K.H.Enggus Arja No.1 Citangkil Kota Cilegon, Banten 42441</p>
-                        <p>No. telepon: (0254) 7877057 Website: unival-cilegon.ac.id</p>
-                    </section>
+                <td style="text-align: center">
+                    <p style="font-weight: bold; font-size: 20px;">Kementerian Pendidikan Tinggi, Sains dan Teknologi
+                        <br>
+                        Universitas Al-Khairiyah <br>
+                        {{ $record->faculty }}
+                    </p>
+                    <p style="font-weight: normal; font-size: 15px;">
+                        Alamat : Jl.K.H.Enggus Arja No.1 Citangkil Kota Cilegon, Banten 42441 <br>
+                        No. telepon: (0254) 7877057 Website: unival-cilegon.ac.id</h1>
+                    </p>
                 </td>
             </tr>
         </thead>
@@ -34,11 +33,12 @@
 
     <br>
 
-    <main style="font-size: 12pt">
-        <h3 class="text-center" style="font-weight: bold">SURAT PERMOHONAN PERBAIKAN DATA SIAKAD </h3>
+    <main style="font-size: 15px">
+        <h3 style="font-weight: bold; text-align: center;">Surat Permohonan Perbaikan Data SIAKAD</h3>
         <br>
 
-        <p class="text-right">Cilegon, {{ $record->created_at->locale('id')->translatedFormat('d F Y') }}</p>
+        <p style="text-align: right">Cilegon,
+            {{ $record->created_at->locale('id')->translatedFormat('d F Y') }}</p>
         <p>Yang Terhormat, <br>
             Rektor Universitas Al-Khairiyah <br>
             Cq. Bagian Administrasi Akademik <br>
@@ -65,11 +65,11 @@
         </table>
 
         <p>Mengajukan permohonan perbaikan data nama di laman
-            <a href="https://unival.siakadcloud.com/gate/login">Helpdesk Universitas Al-Khairiyah</a> sebagai
+            <a href="https://unival.siakadcloud.com/gate/login">https://helpdesk.unival-cilegon.ac.id/</a> sebagai
             berikut:
         </p>
 
-        <table class="text-center">
+        <table style="text-align: center; border-collapse: collapse;">
             <thead>
                 <tr>
                     <th style="border: 1px solid black; padding: 0 10px 0 10px;">No</th>
@@ -81,10 +81,12 @@
             @foreach ($record->fieldTypes as $fieldType)
                 <tbody>
                     <tr>
-                        <td style="border: 1px solid black">{{ $loop->iteration }}.</td>
-                        <td style="border: 1px solid black">{{ $fieldType->name }}</td>
-                        <td style="border: 1px solid black">{{ $fieldType->pivot->old_value }}</td>
-                        <td style="border: 1px solid black">{{ $fieldType->pivot->new_value }}</td>
+                        <td style="border: 1px solid black; padding: 0px 10px 0 10px;">{{ $loop->iteration }}.</td>
+                        <td style="border: 1px solid black; padding: 0px 10px 0 10px;">{{ $fieldType->name }}</td>
+                        <td style="border: 1px solid black; padding: 0px 10px 0 10px;">
+                            {{ $fieldType->pivot->old_value }}</td>
+                        <td style="border: 1px solid black; padding: 0px 10px 0 10px;">
+                            {{ $fieldType->pivot->new_value }}</td>
                     </tr>
                 </tbody>
             @endforeach
